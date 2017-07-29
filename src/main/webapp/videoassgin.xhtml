@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/template/commonLayout.xhtml">
+	<ui:define name="page_title">
+       Marketer Tracker
+        </ui:define>
+	<ui:define name="menu">
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+body {
+	background-image: url("");
+}
+
+table {
+	width: 100%;
+}
+</style>
+		<div
+			style="width: 80%; margin: 0 auto; font-size: 20px; font-weight: bold;">
+			<div style="height: 50%; float: left;">
+				<h:form>
+					<p:menu> 
+						<p:submenu label="User">
+							<p:menuitem value="Home"
+								actionListener="#{menuBean.navigatTo('home')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Add Video"
+								actionListener="#{menuBean.navigatTo('videos')}" update="messages" 
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Assign Video"
+								actionListener="#{menuBean.navigatTo('videoassgin')}" update="messages" 
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="User Map Tracking"
+								actionListener="#{menuBean.navigatTo('usermap')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="User Image Tracking"
+								actionListener="#{menuBean.navigatTo('imagetrack')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Add User"
+								actionListener="#{menuBean.navigatTo('registration')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Logout"
+								actionListener="#{logoutBean.logout()}" update="messages"
+								ajax="false" icon="ui-icon-power" />
+						</p:submenu>
+					</p:menu>
+				</h:form>
+			</div>
+			<div style="height: 50%; float: right; width: 60%;">
+				<h:form id="form" enctype="multipart/form-data">
+					<h:panelGrid columns="2">
+
+						<h:outputText value="User :" />
+						<p:selectOneMenu id="userSelect" value="#{videoAssginBean.id}">
+							<f:selectItem itemLabel="Select One" itemValue="0"
+								noSelectionOption="true" />
+							<f:selectItems value="#{videoAssginBean.users}" var="usr"
+								itemLabel="#{usr.name}" itemValue="#{usr.id}" />
+							<p:ajax update="@form"
+								listener="#{videoAssginBean.changeUser()}" />
+						</p:selectOneMenu>
+						<h:outputText rendered="#{ videoAssginBean.id != 0}" value="Video: " />
+						<p:pickList id="tbbb" value="#{videoAssginBean.assginedVideos}"
+						rendered="#{ videoAssginBean.id != 0}"
+							var="video" itemLabel="#{video.name}" itemValue="#{video.id}">
+							<f:facet name="sourceCaption">Available</f:facet>
+							<f:facet name="targetCaption">Assigned</f:facet>
+
+							<p:ajax event="transfer" listener="#{videoAssginBean.onTransfer}"
+								update="messages" />
+						</p:pickList>
+					</h:panelGrid>
+				</h:form>
+				<br />
+				<p:growl id="messages" showDetail="true" />
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

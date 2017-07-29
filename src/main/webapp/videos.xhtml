@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/template/commonLayout.xhtml">
+	<ui:define name="page_title">
+       Marketer Tracker
+        </ui:define>
+	<ui:define name="menu">
+	</ui:define>
+	<ui:define name="content">
+
+		<style>
+body {
+	background-image: url("");
+}
+
+table {
+	width: 100%;
+}
+</style>
+		<div
+			style="width: 80%; margin: 0 auto; font-size: 20px; font-weight: bold;">
+			<div style="height: 50%; float: left;">
+				<h:form>
+					<p:menu> 
+						<p:submenu label="User">
+							<p:menuitem value="Home"
+								actionListener="#{menuBean.navigatTo('home')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Add Video"
+								actionListener="#{menuBean.navigatTo('videos')}" update="messages" 
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Assign Video"
+								actionListener="#{menuBean.navigatTo('videoassgin')}" update="messages" 
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="User Map Tracking"
+								actionListener="#{menuBean.navigatTo('usermap')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="User Image Tracking"
+								actionListener="#{menuBean.navigatTo('imagetrack')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Add User"
+								actionListener="#{menuBean.navigatTo('registration')}" update="messages"
+								ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Logout"
+								actionListener="#{logoutBean.logout()}" update="messages"
+								ajax="false" icon="ui-icon-power" />
+						</p:submenu>
+					</p:menu>
+				</h:form>
+			</div>
+			<div style="height: 50%; float: right; width: 60%;">
+				<h:form id="form" enctype="multipart/form-data">
+					<h:panelGrid columns="2">
+
+						<h:outputText value="Video Name: " />
+						<p:inputText id="notetxt" value="#{videoBean.video.name}"
+							required="true" requiredMessage="Enter a note text" />
+						<h:outputText value="Video: " />
+						<p:fileUpload value="#{videoBean.file}" mode="simple"
+							skinSimple="true" dragDropSupport="false" multiple="false"
+							update="messages" sizeLimit="2000000" />
+						<h:outputText value="" />
+						<p:commandButton value="Submit" ajax="false"
+							action="#{videoBean.upload}" />
+
+
+					</h:panelGrid>
+				</h:form>
+				<br />
+				<p:dataTable emptyMessage="No available videos" id="tbbb"
+					value="#{videoBean.videos}" var="video">
+					<p:column headerText="Video Name" colspan="2">
+										#{video.name}#{video.extention}
+									</p:column>
+					<!-- 					<p:column headerText="Date" colspan="2"> -->
+					<!-- 						<h:outputText value="#{video.date}"> -->
+					<!-- 							<f:convertDateTime pattern="dd:MM:yyyy hh:MM a" /> -->
+					<!-- 						</h:outputText> -->
+					<!-- 					</p:column> -->
+					<!-- 					<p:selectBooleanCheckbox value="#{video.enabled}"> -->
+					<!-- 							<p:ajax update="messages tbbb" -->
+					<!-- 								listener="#{videoBean.updateVideo(video)}" /> -->
+					<!-- 						</p:selectBooleanCheckbox> -->
+					<p:column headerText="Enabled" colspan="1">
+						<p:selectBooleanButton value="#{videoBean.booleans.get(video.id)}"
+							onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+							offIcon="ui-icon-close" style="width:100px">
+							<p:ajax update="messages tbbb"
+								listener="#{videoBean.updateVideo(video)}" />
+						</p:selectBooleanButton>
+					</p:column>
+
+					<p:column headerText="Delete" colspan="1">
+						<p:commandButton value="delete">
+							<p:ajax update="messages tbbb"
+								listener="#{videoBean.deleteVideo(video)}" />
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+				<p:growl id="messages" showDetail="true" />
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

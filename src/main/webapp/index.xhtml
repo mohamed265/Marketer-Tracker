@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/template/commonLayout.xhtml">
+	<ui:define name="page_title">
+       Marketer Tracker
+        </ui:define>
+	<ui:define name="menu">
+	</ui:define>
+	<ui:define name="content">
+		<style>
+body {
+	background-image: url("");
+}
+
+table {
+	width: 100%;
+}
+</style>
+		<div
+			style="width: 70%; margin: 0 auto; font-size: 20px;  font-weight: bold;">
+			<div style="height: 50%; float: left;">Marketer Tracker to Track our Employee</div>
+			<div style="height: 50%; float: right;">
+				<h:form>
+
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:outputText value="Email" />
+						<p:inputText id="username" value="#{loginBean.input}"
+							a:placeholder="Enter Email" required="true"
+							requiredMessage="Email Required" />
+						<p:message for="username" />
+
+						<h:outputText value="Password" />
+						<p:inputText id="password" value="#{loginBean.password}"
+							type="password" a:placeholder="Enter Password" required="true"
+							requiredMessage="Passeord Required" />
+						<p:message for="password" />
+
+
+						<!-- <p:link href="/registration.xhtml" for="signup-btn"
+							value="Register" />-->
+						<p:commandButton value="Login"
+							action="#{loginBean.validate()}" />
+
+					</h:panelGrid>
+
+				</h:form>
+
+
+			</div>
+		</div>
+
+		<center style="margin-top: 30%;"></center>
+	</ui:define>
+</ui:composition>
+</html>
