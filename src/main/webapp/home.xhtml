@@ -54,34 +54,9 @@ table {
 					</p:menu>
 				</h:form>
 			</div>
-			<div style="height: 50%; float: right; width: 60%;">
-				<h:panelGrid columns="3" cellpadding="5">
-					<h:outputText value="Temp Value" />
-					<h:outputText value="#{homeBean.weatherDay.value}" />
-					<br />
-
-					<h:outputText value="Min Temp Value" />
-					<h:outputText value="#{homeBean.weatherDay.minValue}" />
-					<br />
-
-					<h:outputText value="Max Temp Value" />
-					<h:outputText value="#{homeBean.weatherDay.maxValue}" />
-					<br />
-
-					<h:outputText value="Description" />
-					<h:outputText value="#{homeBean.weatherDay.description}" />
-					<br />
-
-				</h:panelGrid>
-				<p:dataTable emptyMessage="No available notes"
-					value="#{homeBean.notes}" var="note">
-					<p:column headerText="Note" colspan="3">
-						#{note.text}
-					</p:column>
-					<p:column headerText="User" colspan="1">
-						#{note.user != null ? note.user.name: "Default"}
-					</p:column>
-				</p:dataTable>
+			<div style="height: 50%; float: right; width: 60%;"> 
+					<div style="height: 50%; float: left;">Welcome to Marketer
+						Tracker</div>
 			</div>
 		</div>
 

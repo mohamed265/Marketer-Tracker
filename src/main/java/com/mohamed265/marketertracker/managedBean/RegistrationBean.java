@@ -46,6 +46,7 @@ public class RegistrationBean extends BaseBean {
 		// return "";
 		// }
 		user.setPassword(Constants.PASSWORD);
+		user.setIsAdmin(false);
 		if (!userService.isUniqeEmail(user.getEmail())) {
 			addErrorMessage("Email Alredy Exists");
 			return "";
