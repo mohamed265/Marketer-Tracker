@@ -27,6 +27,7 @@ import com.mohamed265.marketertracker.entity.User;
 import com.mohamed265.marketertracker.entity.UserTracker;
 import com.mohamed265.marketertracker.entity.VideoUser;
 import com.mohamed265.marketertracker.service.ImageTrackService;
+import com.mohamed265.marketertracker.service.UserService;
 import com.mohamed265.marketertracker.service.UserTrackerService;
 import com.mohamed265.marketertracker.service.VideoService;
 import com.mohamed265.marketertracker.util.Constants;
@@ -51,6 +52,9 @@ public class TrackerWebService {
 	@Autowired
 	private VideoService videoService;
 
+	@Autowired
+	private UserService userService;
+
 	public TrackerWebService() {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
@@ -62,7 +66,8 @@ public class TrackerWebService {
 			@FormDataParam("file") InputStream uploadedInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail) {
 		try {
-			int usrId = Integer.parseInt(userId);
+
+			int usrId = userService.loginByEmail(userId, Constants.PASSWORD).getId();
 			String fileName = DateFactory.getCurrentDateAsString() + "_" + fileDetail.getFileName();
 			File fileobj = new File(PropertiesReader.getUploadPath(), fileName);
 			int status = FileUtil.writeToFile(uploadedInputStream, fileobj);
@@ -88,7 +93,7 @@ public class TrackerWebService {
 		try {
 			UserTracker userTracker = new UserTracker();
 			userTracker.setDate(new Date());
-			userTracker.setUser(new User(Integer.parseInt(userId)));
+			userTracker.setUser(userService.loginByEmail(userId, Constants.PASSWORD));
 			userTracker.setLatitude(latitude);
 			userTracker.setLongitude(longitude);
 			int response = (userTrackerService.save(userTracker) ? HttpServletResponse.SC_OK
@@ -106,7 +111,7 @@ public class TrackerWebService {
 	public List<VideoUser> getVideos(@QueryParam(Constants.Tracker.userId) String userId) {
 		List<VideoUser> list;
 		try {
-			list = videoService.getAllVideoUserByUser(new User(Integer.parseInt(userId)));
+			list = videoService.getAllVideoUserByUser(userService.loginByEmail(userId, Constants.PASSWORD));
 			for (VideoUser videoUser : list) {
 				videoUser.setUser(null);
 			}
