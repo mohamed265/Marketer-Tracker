@@ -31,16 +31,13 @@ table {
 			style="width: 80%; margin: 0 auto; font-size: 20px; font-weight: bold;">
 			<div style="height: 50%; float: left;">
 				<h:form>
-					<p:menu>
+										<p:menu>
 						<p:submenu label="User">
 							<p:menuitem value="Home"
 								actionListener="#{menuBean.navigatTo('home')}" update="messages"
 								ajax="false" icon="ui-icon-back" />
-							<p:menuitem value="Add Video"
-								actionListener="#{menuBean.navigatTo('videos')}"
-								update="messages" ajax="false" icon="ui-icon-back" />
-							<p:menuitem value="Assign Video"
-								actionListener="#{menuBean.navigatTo('videoassgin')}"
+							<p:menuitem value="Add User"
+								actionListener="#{menuBean.navigatTo('registration')}"
 								update="messages" ajax="false" icon="ui-icon-back" />
 							<p:menuitem value="User Map Tracking"
 								actionListener="#{menuBean.navigatTo('usermap')}"
@@ -48,9 +45,27 @@ table {
 							<p:menuitem value="User Image Tracking"
 								actionListener="#{menuBean.navigatTo('imagetrack')}"
 								update="messages" ajax="false" icon="ui-icon-back" />
-							<p:menuitem value="Add User"
-								actionListener="#{menuBean.navigatTo('registration')}"
+						</p:submenu>
+						<p:submenu label="Group">
+							<p:menuitem value="Add Group"
+								actionListener="#{menuBean.navigatTo('group')}"
 								update="messages" ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Add Users To Group"
+								actionListener="#{menuBean.navigatTo('groupuserassgin')}"
+								update="messages" ajax="false" icon="ui-icon-back" />
+						</p:submenu>
+						<p:submenu label="Video">
+							<p:menuitem value="Add Video"
+								actionListener="#{menuBean.navigatTo('videos')}"
+								update="messages" ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Assign Video To User"
+								actionListener="#{menuBean.navigatTo('videoassgin')}"
+								update="messages" ajax="false" icon="ui-icon-back" />
+							<p:menuitem value="Assign Videos To Group"
+								actionListener="#{menuBean.navigatTo('groupvideoassgin')}"
+								update="messages" ajax="false" icon="ui-icon-back" />
+						</p:submenu>
+						<p:submenu>
 							<p:menuitem value="Logout"
 								actionListener="#{logoutBean.logout()}" update="messages"
 								ajax="false" icon="ui-icon-power" />
@@ -79,10 +94,11 @@ table {
 						</p:calendar>
 					</h:panelGrid>
 					<p:gmap center="#{userMapBean.center}" zoom="15" type="HYBRID"
-						streetView="true" rendered="#{ userMapBean.simpleModel.getMarkers().size() != 0 and userMapBean.id != 0}"
+						streetView="true"
+						rendered="#{ userMapBean.simpleModel.getMarkers().size() != 0 and userMapBean.id != 0}"
 						style="width:100%;height:400px"
 						model="#{userMapBean.polylineModel}" />
-						<br />
+					<br />
 					<h:outputText
 						value="No available images for that user in that date"
 						rendered="#{ userMapBean.simpleModel.getMarkers().size() == 0 and userMapBean.id != 0}">

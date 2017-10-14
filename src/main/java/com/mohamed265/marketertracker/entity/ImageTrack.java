@@ -31,6 +31,9 @@ public class ImageTrack {
 	@Column(name = "date")
 	private Date date;
 
+	@Column(name = "real_date")
+	private Date realDate;
+
 	@Column(name = "imgPath")
 	private String imgPath;
 
@@ -44,6 +47,7 @@ public class ImageTrack {
 	public ImageTrack(Date date, String imgPath, User user) {
 		super();
 		this.date = date;
+		realDate = new Date();
 		this.imgPath = imgPath;
 		this.user = user;
 	}
@@ -83,6 +87,14 @@ public class ImageTrack {
 	@Override
 	public String toString() {
 		return "ImageTrack [id=" + id + ", date=" + date + ", imgPath=" + imgPath + ", user=" + user + "]";
+	}
+
+	public Date getRealDate() {
+		return realDate;
+	}
+
+	public void setRealDate(Date realDate) {
+		this.realDate = realDate;
 	}
 
 }

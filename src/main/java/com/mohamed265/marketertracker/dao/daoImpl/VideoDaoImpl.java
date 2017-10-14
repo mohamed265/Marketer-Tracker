@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mohamed265.marketertracker.dao.VideoDao;
 import com.mohamed265.marketertracker.entity.Video;
+import com.mohamed265.marketertracker.entity.VideoGroup;
 import com.mohamed265.marketertracker.entity.VideoUser;
 
 @Repository("VideoDao")
@@ -38,6 +39,17 @@ public class VideoDaoImpl implements VideoDao {
 	public VideoUser save(VideoUser videoUser) {
 		try {
 			return em.merge(videoUser);
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public VideoGroup save(VideoGroup videoGroup) {
+		try {
+			return em.merge(videoGroup);
 		} catch (Exception e) {
 			logger.error(e);
 			return null;
@@ -117,5 +129,41 @@ public class VideoDaoImpl implements VideoDao {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean delete(VideoGroup videoGroup) {
+		try {
+			videoGroup = em.find(VideoGroup.class, videoGroup.getId());
+			em.remove(videoGroup);
+		} catch (Exception e) {
+			logger.error(e);
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<VideoGroup> getAllVideoGroupByGroup(int groupId) {
+		try {
+			Query query = em.createNamedQuery("VideoGroup.getAllByGroup", VideoGroup.class);
+			query.setParameter("groupId", groupId);
+			return query.getResultList();
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
+	}
+
+	@Override
+	public void deleteAllVideoUserByVideo(int videoID) {
+		try {
+			Query query = em.createNamedQuery("VideoUser.deleteAllByVideo");
+			query.setParameter("videoId", videoID);
+			query.executeUpdate();
+		} catch (Exception e) {
+			logger.error(e);
+		}
 	}
 }

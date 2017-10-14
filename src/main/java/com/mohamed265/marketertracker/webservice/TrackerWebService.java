@@ -25,6 +25,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.mohamed265.marketertracker.entity.ImageTrack;
 import com.mohamed265.marketertracker.entity.User;
 import com.mohamed265.marketertracker.entity.UserTracker;
+import com.mohamed265.marketertracker.entity.Video;
 import com.mohamed265.marketertracker.entity.VideoUser;
 import com.mohamed265.marketertracker.service.ImageTrackService;
 import com.mohamed265.marketertracker.service.UserService;
@@ -73,8 +74,9 @@ public class TrackerWebService {
 			int status = FileUtil.writeToFile(uploadedInputStream, fileobj);
 
 			if (status == HttpServletResponse.SC_OK) {
-				status = imageTrackService.save(new ImageTrack(new Date(), fileobj.getAbsolutePath(), new User(usrId)))
-						? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST;
+				status = imageTrackService
+						.save(new ImageTrack(new Date(), fileobj.getAbsolutePath().replace('\\', '/'), new User(usrId)))
+								? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST;
 			}
 
 			return Response.status(status).build();
@@ -115,6 +117,34 @@ public class TrackerWebService {
 			for (VideoUser videoUser : list) {
 				videoUser.setUser(null);
 			}
+		} catch (Exception e) {
+			list = new ArrayList<>();
+			logger.error(e);
+		}
+		return list;
+	}
+
+	@GET
+	@Path("/AllVideos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Video> getVideos() {
+		List<Video> list;
+		try {
+			list = videoService.getAllVideo();
+		} catch (Exception e) {
+			list = new ArrayList<>();
+			logger.error(e);
+		}
+		return list;
+	}
+
+	@GET
+	@Path("/AllEnabledVideo")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Video> getEnableVideos() {
+		List<Video> list;
+		try {
+			list = videoService.getAllEnabledVideo();
 		} catch (Exception e) {
 			list = new ArrayList<>();
 			logger.error(e);

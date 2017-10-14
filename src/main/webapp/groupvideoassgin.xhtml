@@ -74,23 +74,23 @@ table {
 				<h:form id="form" enctype="multipart/form-data">
 					<h:panelGrid columns="2">
 
-						<h:outputText value="User :" />
-						<p:selectOneMenu id="userSelect" value="#{videoAssginBean.id}">
+						<h:outputText value="Group :" />
+						<p:selectOneMenu id="userSelect" value="#{videoGroupAssignBean.id}">
 							<f:selectItem itemLabel="Select One" itemValue="0"
 								noSelectionOption="true" />
-							<f:selectItems value="#{videoAssginBean.users}" var="usr"
-								itemLabel="#{usr.name}" itemValue="#{usr.id}" />
-							<p:ajax update="@form" listener="#{videoAssginBean.changeUser()}" />
+							<f:selectItems value="#{videoGroupAssignBean.groups}" var="grp"
+								itemLabel="#{grp.name}" itemValue="#{grp.id}" />
+							<p:ajax update="@form" listener="#{videoGroupAssignBean.changeGroup()}" />
 						</p:selectOneMenu>
-						<h:outputText rendered="#{ videoAssginBean.id != 0}"
+						<h:outputText rendered="#{ videoGroupAssignBean.id != 0}"
 							value="Video: " />
-						<p:pickList id="tbbb" value="#{videoAssginBean.assginedVideos}"
-							rendered="#{ videoAssginBean.id != 0}" var="video"
+						<p:pickList id="tbbb" value="#{videoGroupAssignBean.assginedVideos}"
+							rendered="#{ videoGroupAssignBean.id != 0}" var="video"
 							itemLabel="#{video.name}" itemValue="#{video.id}">
 							<f:facet name="sourceCaption">Available</f:facet>
 							<f:facet name="targetCaption">Assigned</f:facet>
 
-							<p:ajax event="transfer" listener="#{videoAssginBean.onTransfer}"
+							<p:ajax event="transfer" listener="#{videoGroupAssignBean.onTransfer}"
 								update="messages" />
 						</p:pickList>
 					</h:panelGrid>
